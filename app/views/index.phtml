@@ -9,6 +9,10 @@
             font-family: sans-serif;
         }
 
+        a, a:visited {
+            color: #6495ed;
+        }
+
         .header {
             padding: 10px 20px;
         }
@@ -91,33 +95,5 @@
     <div class="container">
         <?php echo $this->getContent(); ?>
     </div>
-
-    <script type='text/javascript'>
-        function onLoad() {
-            Array.prototype.forEach.call(document.getElementsByClassName('showLinks'), (link) => {
-                link.addEventListener('click', (event) => {
-                    event.preventDefault()
-
-                    const links = JSON.parse(link.dataset.links),
-                        baseUrl = link.dataset.baseUrl,
-                        closestTd = link.closest('td')
-
-                    closestTd.innerHTML = '<div>' + links.map((link) => {
-                        let href = link;
-
-                        if (baseUrl) {
-                            href = `${baseUrl}${href}`
-                        }
-
-                        return `<a href='${href}' target='_blank'>${link}</a>`
-                    }).join('<br>') + '</div'
-                })
-            })
-        }
-
-        addEventListener('load', function () {
-            onLoad()
-        })
-    </script>
 </body>
 </html>
