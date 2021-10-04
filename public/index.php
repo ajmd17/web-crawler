@@ -69,9 +69,4 @@
     } catch (\Exception $e) {
         echo 'Exception: ', $e->getMessage();
     }
-
-    // use AndrewM\Crawler;
-
-    // $crawler = new Crawler('https://bidsquid.com');
-    // $crawlResult = $crawler->start();
 ?>
