@@ -1,5 +1,6 @@
 <?php
-namespace AndrewM\Fetch;
+
+namespace Crawler;
 
 use \DOMDocument;
 

@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Web Crawler</title>
+    
+    <style>
+        body {
+            font-family: sans-serif;
+        }
+
+        .content {
+            display: flex;
+            flex-direction: row-reverse;
+        }
+
+        .table,
+        .table th,
+        .table td {
+            flex: 1;
+            font-size: 16px;
+            border: 1px solid #777;
+        }
+        .table {
+            border-collapse: collapse;
+        }
+        .table th {
+            padding: 10px 6px;
+        }
+        .table td {
+            padding: 10px;
+        }
+        .table thead {
+            background: #eee;
+        }
+
+        .total-results-wrapper {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .total-results {
+            border: 1px solid #eee;
+            border-radius: 10px;
+            background-color: #eee;
+            display: inline-block;
+            padding: 12px;
+        }
+
+        .status-code--good {
+            font-weight: bold;
+            color: green;
+        }
+
+        .status-code--redirect {
+            font-weight: bold;
+            color: gold;
+        }
+
+        .status-code--bad {
+            font-weight: bold;
+            color: red;
+        }
+
+        @media only screen and (max-width: 1200px) {
+            .content {
+                flex-direction: column-reverse;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <?php echo $this->getContent(); ?>
+    </div>
+
+    <script type='text/javascript'>
+        function onLoad() {
+            Array.prototype.forEach.call(document.getElementsByClassName('showLinks'), (link) => {
+                link.addEventListener('click', (event) => {
+                    event.preventDefault()
+
+                    const links = JSON.parse(link.dataset.links)
+
+                    const closestTd = link.closest('td')
+
+                    closestTd.innerHTML = '<div>' + links.join('<br>') + '</div'
+
+                })
+            })
+        }
+
+        addEventListener('load', function () {
+            onLoad()
+        })
+    </script>
+</body>
+</html>

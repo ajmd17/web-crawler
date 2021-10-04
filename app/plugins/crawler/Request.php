@@ -1,8 +1,6 @@
 <?php
 
-namespace AndrewM\Fetch;
-
-use AndrewM\Fetch\Response;
+namespace Crawler;
 
 class Request {
     private $curl;

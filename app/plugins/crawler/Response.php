@@ -1,14 +1,14 @@
 <?php
 
-namespace AndrewM\Fetch;
+namespace Crawler;
 
 class Response {
     public string $body;
-    public mixed $status;
+    public int $status;
     public float $startTime;
     public float $endTime;
 
-    function __construct(string $body, mixed $status, float $startTime, float $endTime) {
+    function __construct(string $body, int $status, float $startTime, float $endTime) {
         $this->body = $body;
         $this->status = $status;
         $this->startTime = $startTime;

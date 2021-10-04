@@ -1,26 +1,21 @@
 <?php
 
-namespace AndrewM;
+use Phalcon\Di\Injectable;
+use Crawler\Response;
+use Crawler\CrawlResult;
+use Crawler\Request;
 
-use AndrewM\Fetch\Request;
-use AndrewM\Fetch\CrawlResult;
-
-class Crawler {
+class Crawler extends Injectable {
     private static $LINK_DEPTH = 4;
     private static $MAX_LINK_RECURSION_LEVEL = 1;
 
-    private string $baseUrl;
     private int $linkCounter = 0;
 
-    function __construct(string $baseUrl) {
-        $this->baseUrl = $baseUrl;
+    public function crawl(string $baseUrl) {
+        return $this->crawlUrl($baseUrl, $baseUrl, self::$MAX_LINK_RECURSION_LEVEL);
     }
 
-    public function start() {
-        return $this->crawlUrl($this->baseUrl, self::$MAX_LINK_RECURSION_LEVEL);
-    }
-
-    private function crawlUrl(string $url, int $maxRecursionLevel, int $currentRecursionLevel = 0) {
+    private function crawlUrl(string $url, string $baseUrl, int $maxRecursionLevel, int $currentRecursionLevel = 0) {
         $baseRequest = new Request($url);
         $response = $baseRequest->fetch();
         
@@ -44,7 +39,8 @@ class Crawler {
             }
 
             $nestedCrawlResult = $this->crawlUrl(
-                $this->getAbsoluteUrl($this->baseUrl, $href),
+                $this->getAbsoluteUrl($baseUrl, $href),
+                $baseUrl,
                 $maxRecursionLevel,
                 $currentRecursionLevel + 1
             );
@@ -67,5 +63,4 @@ class Crawler {
         return empty($href) || $href[0] == '#';
     }
 }
-
 ?>
