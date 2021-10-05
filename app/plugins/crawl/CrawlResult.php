@@ -161,40 +161,34 @@ class CrawlResult {
         return str_word_count($this->getHtmlText());
     }
 
-    public function calculateAverageTitleLengthCharacters() {
-        $length = strlen($this->getPageTitle());
+    private function calculateAverage($mapClosure) {
+        $selfResult = $mapClosure($this);
 
-        $titleLengths = array_map(function ($result) {
-            return strlen($result->getPageTitle());
+        $childResults = array_map(function ($child) use ($mapClosure) {
+            return $mapClosure($child);
         }, $this->childResults);
 
-        $sum = array_sum($titleLengths) + $length;
+        $sum = array_sum($childResults) + $selfResult;
 
-        return $sum / (count($titleLengths) + 1);
+        return $sum / (count($childResults) + 1);
+    }
+
+    public function calculateAverageTitleLengthCharacters() {
+        return $this->calculateAverage(function ($item) {
+            return strlen($item->getPageTitle());
+        });
     }
 
     public function calculateAverageTitleLengthWords() {
-        $length = str_word_count($this->getPageTitle());
-
-        $titleLengths = array_map(function ($result) {
-            return str_word_count($result->getPageTitle());
-        }, $this->childResults);
-
-        $sum = array_sum($titleLengths) + $length;
-
-        return $sum / (count($titleLengths) + 1);
+        return $this->calculateAverage(function ($item) {
+            return str_word_count($item->getPageTitle());
+        });
     }
 
     public function calculateAverageWordCount() {
-        $wordCount = $this->getWordCount();
-
-        $wordCounts = array_map(function ($result) {
-            return $result->getWordCount();
-        }, $this->childResults);
-
-        $sum = array_sum($wordCounts) + $wordCount;
-
-        return $sum / (count($wordCounts) + 1);
+        return $this->calculateAverage(function ($item) {
+            return $item->getWordCount();
+        });
     }
 }
 
