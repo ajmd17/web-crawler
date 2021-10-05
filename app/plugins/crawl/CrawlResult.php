@@ -6,12 +6,14 @@ use \DOMDocument;
 
 class CrawlResult {
     public string $path;
+    public string $baseUrl;
     public Response $response;
     public DOMDocument $dom;
     public array $childResults = [];
 
-    function __construct(string $path, Response $response) {
+    function __construct(string $path, string $baseUrl, Response $response) {
         $this->path = $path;
+        $this->baseUrl = $baseUrl;
         $this->response = $response;
 
         $this->dom = new DOMDocument;
@@ -119,7 +121,18 @@ class CrawlResult {
     }
 
     private function isLinkExternal(string $href) {
-        return substr($href, 0, 4) == 'http';
+        if (substr($href, 0, 4) != 'http') {
+            return false;
+        }
+
+        $baseDomain = parse_url($this->baseUrl, PHP_URL_HOST);
+        $hrefDomain = parse_url($href, PHP_URL_HOST);
+        
+        if (preg_match('/' . preg_quote($baseDomain, '/') . '$/i', $hrefDomain) == 1) {
+            return false;
+        }
+
+        return true;
     }
 
     public function getElapsedTime() : float {

@@ -125,24 +125,31 @@
 
 <script type='text/javascript'>
     function onLoad() {
-        Array.prototype.forEach.call(document.getElementsByClassName('showLinks'), (link) => {
-            link.addEventListener('click', (event) => {
+        Array.prototype.forEach.call(document.getElementsByClassName('showLinks'), (element) => {
+            element.addEventListener('click', (event) => {
                 event.preventDefault()
 
-                const links = JSON.parse(link.dataset.links),
-                    baseUrl = link.dataset.baseUrl,
-                    closestTd = link.closest('td')
+                const links = JSON.parse(element.dataset.links),
+                    baseUrl = element.dataset.baseUrl,
+                    closestTd = element.closest('td')
 
                 closestTd.innerHTML = '<div>' + links.map((link) => {
-                    let href = link;
+                    let href = link,
+                        classes = ''
+
+                    const isSubdomainLink = baseUrl && href.startsWith('http')
 
                     if (href.startsWith('data:')) {
                         return `<span><i>data image</i></span>`;
                     } else if (baseUrl) {
-                        href = `${baseUrl}${href}`
+                        if (isSubdomainLink) {
+                            classes += 'subdomain-link'
+                        } else {
+                            href = `${baseUrl}${href}`
+                        }
                     }
 
-                    return `<a href='${href}' target='_blank'>${link}</a>`
+                    return `<a href='${href}' class='${classes}' target='_blank'>${link}</a>`
                 }).join('<br>') + '</div'
             })
         })

@@ -31,7 +31,7 @@ class Crawler extends Injectable {
 
         array_push($this->crawledUrls, rtrim($url, '/'));
 
-        $crawlResult = new CrawlResult($url, $response);
+        $crawlResult = new CrawlResult($url, $this->baseUrl, $response);
 
         if ($currentRecursionLevel >= $maxRecursionLevel) {
             return $crawlResult;
