@@ -11,10 +11,17 @@
 
         a, a:visited {
             color: #6495ed;
+            text-decoration: none;
+        }
+	    a:hover {
+          text-decoration: underline;
         }
 
-        a.subdomain-link {
-            font-style: italic;
+	    a.subdomain-link::after {
+            content: '(subdomain)';
+            font-size: 5px;
+            color: #000;
+            margin-left: 8px;
         }
 
         .header {
