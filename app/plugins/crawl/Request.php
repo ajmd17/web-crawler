@@ -13,8 +13,14 @@ class Request {
     public function fetch() : Response {
         $this->curl = curl_init();
 
-        curl_setopt($this->curl, CURLOPT_URL, $this->url);
+        curl_setopt($this->curl, CURLOPT_URL, $this->url . "?ts=" . time());
         curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($this->curl, CURLOPT_FRESH_CONNECT, TRUE);
+        curl_setopt($this->curl, CURLOPT_HTTPHEADER, array(
+            "Cache-Control: no-cache, no-store, must-revalidate",
+            "Pragma: no-cache",
+            "Expires: 0"
+        ));
 
         $startTime = microtime(true);
 
