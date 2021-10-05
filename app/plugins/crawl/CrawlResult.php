@@ -1,6 +1,6 @@
 <?php
 
-namespace Crawler;
+namespace Crawl;
 
 use \DOMDocument;
 

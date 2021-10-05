@@ -1,9 +1,13 @@
 <?php
 
+require_once 'crawl/Request.php';
+require_once 'crawl/Response.php';
+require_once 'crawl/CrawlResult.php';
+
 use Phalcon\Di\Injectable;
-use Crawler\Response;
-use Crawler\CrawlResult;
-use Crawler\Request;
+use Crawl\Response;
+use Crawl\CrawlResult;
+use Crawl\Request;
 
 class Crawler extends Injectable {
     private static $LINK_DEPTH = 4;
